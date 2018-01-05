@@ -6,6 +6,11 @@ import { PlaylistItem } from '../models/playlist.item';
 import { PlayerService, PlayerState } from '../services/player.service';
 
 
+/*
+TODO:
+Playlist store service. Store classes: API or Local storage.
+*/
+
 @Injectable()
 export class PlaylistService {
     private _currentPlaylist;
@@ -34,6 +39,17 @@ export class PlaylistService {
         return this._currentPlaylist;
     }
 
+    delete(index: number) {
+        
+        this._currentPlaylist.items.splice(index, 1);
+        this.playlistChanged.next(this._currentPlaylist);
+
+        if(index==this._currentPlTrack && this.playerService.state==PlayerState.PLAYING) {
+            this.playerService.stop();
+            this.playEnqueued();    
+        }
+    }
+
     enqueue(file: LibraryFile) {
         let pi = new PlaylistItem;
         pi.file = file;
@@ -43,6 +59,11 @@ export class PlaylistService {
     }
 
     playEnqueued() {
+        
+        if(this.currentPlaylist.items.length==0) {
+            return;
+        }
+
         this.playerService.play(this.currentPlaylist.items[this._currentPlTrack].file);
     }
 

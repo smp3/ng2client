@@ -27,4 +27,8 @@ export class PlaylistComponent implements OnInit {
     this.playlistService.playEnqueued();
   }
 
+  delete(index) {
+    this.playlistService.delete(index);
+  }
+
 }
