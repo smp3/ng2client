@@ -1,0 +1,12 @@
+<div *ngIf="playlist">
+  <button (click)="play()">Play</button>
+  <table>
+    <tbody>
+      <tr *ngFor="let i of playlist.items">
+        <td>
+          {{i.file | track_title}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

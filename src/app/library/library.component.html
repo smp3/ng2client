@@ -1,0 +1,19 @@
+<table>
+  <tbody>
+    <tr *ngFor="let t of trackFiles">
+      <td>
+        
+        {{t.file_name}}
+      </td>
+      <td>
+        <button type="button" (click)="play(t)">
+            Play
+        </button>
+        <button type="button" (click)="enqueue(t)">
+          Enqueue
+        </button>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
