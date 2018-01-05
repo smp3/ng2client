@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaylistService } from '../services/playlist.service';
+import {PlaylistManagerService} from '../services/playlist.manager.service';
 import { Playlist } from '../models/playlist';
 
 @Component({
@@ -9,16 +10,15 @@ import { Playlist } from '../models/playlist';
 })
 export class PlaylistComponent implements OnInit {
 
-  private playlist: Playlist;
+  public playlist: Playlist;
 
-  constructor(private playlistService: PlaylistService) {
+  constructor(private playlistService: PlaylistService, private playlistManagerService: PlaylistManagerService) {
 
     
   }
 
   ngOnInit() {
     this.playlistService.playlistChanged.subscribe((playlist: Playlist) => {
-      console.log(playlist);
       this.playlist = playlist;
     });
   }
@@ -29,6 +29,10 @@ export class PlaylistComponent implements OnInit {
 
   delete(index) {
     this.playlistService.delete(index);
+  }
+  
+  savePlaylist() {
+    this.playlistManagerService.save('local', this.playlist);
   }
 
 }

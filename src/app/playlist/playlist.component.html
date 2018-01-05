@@ -1,5 +1,11 @@
 <div *ngIf="playlist && playlist.items.length">
-  <button (click)="play()">Play</button>
+  <div>
+    <button (click)="play()">Play</button>
+    <button (click)="savePlaylist()">Save</button>
+  </div>
+  <div>
+    <input type="text" [(ngModel)]="this.playlist.title" /> 
+  </div>
   <table>
     <tbody>
       <tr *ngFor="let item of playlist.items; let i = index;">

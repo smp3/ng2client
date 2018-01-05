@@ -48,7 +48,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
 
     this.playerStateSub = this.playerService.stateChange.subscribe((state: PlayerState) => {
-      console.log('state change', state);
+      
     });
   }
 

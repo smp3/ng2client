@@ -1,0 +1,23 @@
+<div>
+  <button (click)="clearPlaylists()">
+    Clear
+  </button>
+  <table>
+    <tbody>
+      <tr *ngFor="let p of playlists">
+        <td  (click)="selectPlaylist(p)" style="width: 80px; background-color: blue; color: #fff">
+          {{p.title}}
+        </td>
+        <td>
+          <button (click)="deletePlaylist(p)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div>
+  <playlist></playlist>
+</div>
