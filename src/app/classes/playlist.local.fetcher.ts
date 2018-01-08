@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Playlist } from "../models/playlist";
 import { PlaylistFetcher } from "./playlist.fetcher";
+import {findById} from "./playlist.helper";
 
 const STORAGE_KEY = 'playlists';
 
@@ -40,16 +41,6 @@ export class PlaylistLocalFetcher extends PlaylistFetcher {
 
     }
 
-    private findById(id: any): number {
-        for (let i in this.playlists) {
-            if (this.playlists[i].id == id) {
-                return parseInt(i);
-            }
-        }
-
-        return null;
-    }
-
     fetchAll() {
 
         return new Promise((resolve, reject) => {
@@ -64,7 +55,7 @@ export class PlaylistLocalFetcher extends PlaylistFetcher {
         return new Promise((resolve, reject) => {
             this.load();
 
-            let pl = this.findById(playlist.id);
+            let pl = findById(playlist.id, this.playlists);
 
             this.playlists.splice(pl, 1);
             this.persist();
@@ -76,7 +67,6 @@ export class PlaylistLocalFetcher extends PlaylistFetcher {
 
     private makeId(playlist: Playlist) {
         let timestamp = new Date().getTime();
-        console.log(timestamp);
         return timestamp;
         
     }
@@ -90,7 +80,7 @@ export class PlaylistLocalFetcher extends PlaylistFetcher {
                 playlist.id = this.makeId(playlist);
             }
             
-            let pi = this.findById(playlist.id);
+            let pi = findById(playlist.id, this.playlists);
 
             if (pi == null) {
                 this.playlists.push(playlist);

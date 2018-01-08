@@ -4,39 +4,29 @@ import { Playlist } from "../models/playlist";
 import { PlaylistService } from './playlist.service';
 import { PlaylistLocalFetcher } from '../classes/playlist.local.fetcher';
 import { PlaylistFetcher } from '../classes/playlist.fetcher';
+import {findById} from '../classes/playlist.helper';
 
 @Injectable()
 export class PlaylistManagerService {
 
-    //private localFetcher;
-
     private fetchers = {};
-    private _playlists: Subject<Array<Playlist>> = new Subject<Array<Playlist>>();;
-    private playlists: Array<Playlist>;
+    private _playlistsSubject: Subject<Array<Playlist>> = new Subject<Array<Playlist>>();
+    private _playlists: Array<Playlist> = [];
 
-    playlists$ = this._playlists.asObservable();
-
-
+    playlists$ = this._playlistsSubject.asObservable();
 
     constructor(private playlistService: PlaylistService) {
-        // this.localFetcher = new PlaylistLocalFetcher();
-        this.setDefault();
         this.addFetcher(new PlaylistLocalFetcher(), "local");
 
-        this.playlists$.subscribe((playlists) => {
-            this.playlists = playlists;
-        });
     }
 
+    set playlists(playlists) {
+        this._playlists = playlists;
+        this._playlistsSubject.next(this.playlists);
+    }
 
-    private setDefault() {
-        if (!this.playlistService.currentPlaylist) {
-            this.playlistService.currentPlaylist = new Playlist();
-            this.playlistService.currentPlaylist.title = 'Default playlist';
-            this.playlistService.currentPlaylist.id = -1;
-            
-
-        }
+    get playlists(): Array<Playlist> {
+        return this._playlists;
     }
 
     private addFetcher(fetcher: PlaylistFetcher, name: string) {
@@ -47,14 +37,59 @@ export class PlaylistManagerService {
 
     fetchAll(name) {
         this.fetchers[name].fetchAll().then((playlists) => {
-            this._playlists.next(playlists);
+            this.playlists = playlists;
         });
     }
 
+
+    updateAll(playlists: Array<Playlist>, skipI = null) {
+
+
+        let ps = Object.assign([], this.playlists);
+
+        for (let pA in this.playlists) {
+
+            for (let pB in playlists) {
+                if (ps[pA].id == playlists[pB].id) {
+                    ps[pA] = playlists[pB];
+                }
+            }
+        }
+
+        if(skipI!==null) {
+            
+            ps.splice(skipI, 1);
+        }
+        
+
+        this.playlists = ps;
+    }
+
+    add(playlist: Playlist) {
+        let ps = this.playlists;
+        ps.push(playlist);
+
+        this.updateAll(ps);
+    }
+
+    create(title, id = null): Playlist {
+        let p = new Playlist();
+        p.title = title;
+        if (id) {
+            p.id = id;
+        }
+
+        p.saved = false;
+        this.add(p);
+
+        return p;
+    }
+
     save(name, playlist) {
-        console.log('saving', playlist);
+        playlist.saved = true;
         this.fetchers[name].save(playlist).then((playlists) => {
-            this._playlists.next(playlists);
+
+            this.updateAll(playlists);
         });
     }
 
@@ -69,10 +104,15 @@ export class PlaylistManagerService {
         }
     }
 
-    delete(name, playlist: Playlist) {
-        this.fetchers[name].delete(playlist).then((playlists) => {
-            this._playlists.next(playlists);
-        });
+    delete(name, playlistI) {
+
+        let playlist = this.playlists[playlistI];
+
+        if (playlist.id) {
+            this.fetchers[name].delete(playlist).then((playlists) => {
+                this.updateAll(playlists, playlistI);
+            });
+        }
     }
 
     clear(name) {

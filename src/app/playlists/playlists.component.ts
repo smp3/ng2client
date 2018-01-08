@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { PlaylistComponent } from '../playlist/playlist.component';
 import { PlaylistManagerService } from '../services/playlist.manager.service';
-import {Playlist} from '../models/playlist';
+import { Playlist } from '../models/playlist';
 
 
 @Component({
@@ -13,13 +13,14 @@ export class PlaylistsComponent implements OnInit {
 
   @ViewChild(PlaylistComponent) playlistComponent: PlaylistComponent;
 
-  private playlists: any=[];
+  private playlists: any = [];
 
   constructor(protected playlistManagerService: PlaylistManagerService) { }
 
   ngOnInit() {
     this.playlistManagerService.fetchAll('local');
     this.playlistManagerService.playlists$.subscribe((playlists) => {
+      console.log('ps', playlists);
       this.playlists = playlists;
     });
   }
@@ -28,12 +29,16 @@ export class PlaylistsComponent implements OnInit {
     this.playlistManagerService.select(playlist);
   }
 
-  deletePlaylist(playlist: Playlist) {
-    this.playlistManagerService.delete('local', playlist);
+  deletePlaylist(i: number) {
+    this.playlistManagerService.delete('local', i);
   }
 
   clearPlaylists() {
     this.playlistManagerService.clear('local');
+  }
+
+  newPlaylist() {
+    this.playlistManagerService.create('Playlist');
   }
 
 }

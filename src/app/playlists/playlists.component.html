@@ -2,14 +2,17 @@
   <button (click)="clearPlaylists()">
     Clear
   </button>
+  <button (click)="newPlaylist()">
+    New
+  </button>
   <table>
     <tbody>
-      <tr *ngFor="let p of playlists">
+      <tr *ngFor="let p of playlists; let i = index;">
         <td  (click)="selectPlaylist(p)" style="width: 80px; background-color: blue; color: #fff">
           {{p.title}}
         </td>
         <td>
-          <button (click)="deletePlaylist(p)">
+          <button (click)="deletePlaylist(i)">
             Delete
           </button>
         </td>

@@ -6,5 +6,8 @@ export class Playlist {
     title: string;
     user: User;
     items: Array<PlaylistItem>=[];
-    
+    saved: boolean;
+    deleted: boolean;
 }
+
+
