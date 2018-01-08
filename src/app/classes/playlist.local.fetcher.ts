@@ -37,6 +37,10 @@ export class PlaylistLocalFetcher extends PlaylistFetcher {
 
         if (this.playlists == null) {
             this.clear();
+        } else {
+            for(let i in this.playlists) {
+                this.playlists[i].isLocal=true;
+            }
         }
 
     }
@@ -74,6 +78,8 @@ export class PlaylistLocalFetcher extends PlaylistFetcher {
     save(playlist: Playlist) {
 
         return new Promise((resolve, reject) => {
+            playlist.isLocal = true;
+            
             this.load();
 
             if(!playlist.id) {

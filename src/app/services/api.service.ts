@@ -14,51 +14,84 @@ export class APIService {
         this.http = http;
     }
 
-    makeRequest(url, method, inData = {}, useToken = true, redirectOnForbidden = true): Observable<any> {
+    makeRequest(
+        url, 
+        method, 
+        inData = {}, 
+        useToken = true, 
+        redirectOnForbidden = true, 
+        contentType='application/x-www-form-urlencoded'): Observable<any> {
 
-        url = this.settingsService.get('server')+'/'+url;
-        
+        url = this.settingsService.get('server') + '/' + url;
+
         let body = new URLSearchParams();
 
         var data = {};
-        
+
         var stringData = '';
 
         for (let i in inData) {
-            if (typeof (inData[i]) === 'object' && inData[i] !== null) {
+           /*  if (typeof (inData[i]) === 'object' && inData[i] !== null) {
                 if (inData[i]._id) {
                     data[i] = inData[i]._id;
                 } else if (inData[i].length) {
-                    for(let n=0; n<inData[i].length; n++) {
-                        let k = i+'[]';
-                        stringData+='&'+k+'='+inData[i][n];
+                    for (let n = 0; n < inData[i].length; n++) {
+                        let k = i + '[]';
+                        stringData += '&' + k + '=' + inData[i][n];
                     }
                 }
-            }  else {
-                data[i] = inData[i];
-            }
+            } else { */
+               
+                    data[i] = inData[i];
+                
+
+                
+           /*  } */
 
             body.set(i, data[i]);
         }
 
+
+
+        let headers = {
+            'Content-Type': contentType
+        };
+
+
+
         if (useToken) {
-            body.set('token', this.settingsService.get('token'));
+            if (method == 'get') {
+                body.set('token', this.settingsService.get('token'));
+            } else {
+                headers['Authorization'] = 'Bearer ' + this.settingsService.get('token');
+            }
         }
 
         let options = {
-            headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+            headers: headers
         };
+
+
 
         let req;
 
         method = method.toLowerCase();
 
-        let strBody = body.toString()+'&'+stringData;
+        let strBody;    
+    
+        if(contentType=='application/json') {
+            strBody = body.paramsMap;     
+            console.log('strBody', strBody);
+        } else {
+            strBody = body.toString() + '&' + stringData;
+        }
+        
 
+        
         switch (method) {
             default:
             case 'get':
-                req = this.http.get(url + '?' +strBody);
+                req = this.http.get(url + '?' + strBody);
                 break;
             case 'post':
                 req = this.http.post(url, strBody, options);
@@ -84,9 +117,9 @@ export class APIService {
                 return error;
             })
             .catch((error: HttpErrorResponse) => {
-                
-                    return Observable.throw(error);
-                
+
+                return Observable.throw(error);
+
             });
     }
 

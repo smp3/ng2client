@@ -1,10 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Playlist } from "../models/playlist";
+import { APIService } from '../services/api.service';
 import { PlaylistService } from './playlist.service';
-import { PlaylistLocalFetcher } from '../classes/playlist.local.fetcher';
 import { PlaylistFetcher } from '../classes/playlist.fetcher';
-import {findById} from '../classes/playlist.helper';
+import { PlaylistLocalFetcher } from '../classes/playlist.local.fetcher';
+import { PlaylistAPIFetcher } from '../classes/playlist.api.fetcher';
+import { findById } from '../classes/playlist.helper';
 
 @Injectable()
 export class PlaylistManagerService {
@@ -15,8 +17,10 @@ export class PlaylistManagerService {
 
     playlists$ = this._playlistsSubject.asObservable();
 
-    constructor(private playlistService: PlaylistService) {
+    constructor(private playlistService: PlaylistService, private apiSerivce: APIService) {
         this.addFetcher(new PlaylistLocalFetcher(), "local");
+        this.addFetcher(new PlaylistAPIFetcher(apiSerivce), "api");
+
 
     }
 
@@ -56,11 +60,11 @@ export class PlaylistManagerService {
             }
         }
 
-        if(skipI!==null) {
-            
+        if (skipI !== null) {
+
             ps.splice(skipI, 1);
         }
-        
+
 
         this.playlists = ps;
     }
@@ -79,14 +83,14 @@ export class PlaylistManagerService {
             p.id = id;
         }
 
-        p.saved = false;
+        
         this.add(p);
 
         return p;
     }
 
     save(name, playlist) {
-        playlist.saved = true;
+
         this.fetchers[name].save(playlist).then((playlists) => {
 
             this.updateAll(playlists);

@@ -1,6 +1,11 @@
 <div>
+  Mode: {{mode}}
+  <br />
+  <button (click)="switchMode()">Switch</button>
+</div>
+<div>
   <button (click)="clearPlaylists()">
-    Clear
+    Clear [debug]
   </button>
   <button (click)="newPlaylist()">
     New

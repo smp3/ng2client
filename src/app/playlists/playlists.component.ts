@@ -14,13 +14,13 @@ export class PlaylistsComponent implements OnInit {
   @ViewChild(PlaylistComponent) playlistComponent: PlaylistComponent;
 
   private playlists: any = [];
+  private mode = 'local';
 
   constructor(protected playlistManagerService: PlaylistManagerService) { }
 
   ngOnInit() {
-    this.playlistManagerService.fetchAll('local');
+    this.playlistManagerService.fetchAll(this.mode);
     this.playlistManagerService.playlists$.subscribe((playlists) => {
-      console.log('ps', playlists);
       this.playlists = playlists;
     });
   }
@@ -30,15 +30,25 @@ export class PlaylistsComponent implements OnInit {
   }
 
   deletePlaylist(i: number) {
-    this.playlistManagerService.delete('local', i);
+    this.playlistManagerService.delete(this.mode, i);
   }
 
   clearPlaylists() {
-    this.playlistManagerService.clear('local');
+    this.playlistManagerService.clear(this.mode);
   }
 
   newPlaylist() {
     this.playlistManagerService.create('Playlist');
+  }
+
+  switchMode() {
+    if(this.mode=='local') {
+      this.mode='api';
+    } else {
+      this.mode = 'local';
+    }
+
+    this.playlistManagerService.fetchAll(this.mode);
   }
 
 }

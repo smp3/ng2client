@@ -2,14 +2,17 @@
   <div>
     {{currentFile | track_title }}
   </div>
-  <div>
-    <span *ngIf="elapsedTime!==null">
-      {{ elapsedTime | playback_time }}
-    </span>
-
-    <span *ngIf="totalTime">
-      {{ totalTime | playback_time }}
-    </span>
+  <div *ngIf="totalTime">
+   
+    <progressbar 
+    #draggable
+    (mousedown)="seekStart($event)"
+    (mouseup)="seekEnd($event)"
+    class="progress progress-success" [value]="elapsedPercentage" [max]="100" type="success" >
+      <b style="color: #000">
+          {{ elapsedTime | playback_time }} /  {{ totalTime | playback_time }}
+      </b>
+    </progressbar>
   </div>
   <div>
     <button (click)="play()">Play</button>

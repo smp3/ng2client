@@ -1,6 +1,5 @@
 import {Playlist} from "../models/playlist";
-import { Subject } from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
+
 
 export abstract class PlaylistFetcher {
     //fetchedPlaylists

@@ -1,7 +1,8 @@
 <div *ngIf="playlist">
   <div>
     <button (click)="play()">Play</button>
-    <button (click)="savePlaylist()">Save</button>
+    <button (click)="savePlaylist('local')">Save (local)</button>
+    <button (click)="savePlaylist('api')">Save (API)</button>
   </div>
   <div>
     <input type="text" [(ngModel)]="this.playlist.title" /> 

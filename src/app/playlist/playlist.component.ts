@@ -31,8 +31,8 @@ export class PlaylistComponent implements OnInit {
     this.playlistService.delete(index);
   }
   
-  savePlaylist() {
-    this.playlistManagerService.save('local', this.playlist);
+  savePlaylist(fetcher) {
+    this.playlistManagerService.save(fetcher, this.playlist);
   }
 
 }

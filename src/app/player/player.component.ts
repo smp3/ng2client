@@ -17,6 +17,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   private fileInfoText: string = '';
   private currentFile: LibraryFile = null;
   private elapsedTime = null;
+  private elapsedPercentage=0;
   private totalTime = null;
   
 
@@ -49,6 +50,15 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.playlistService.previous();
   }
 
+
+  seekStart(e) {
+    console.log('seekStart', e);
+  }
+
+  seekEnd(e) {
+    console.log('seekEnd', e);
+  }
+
   ngOnInit() {
     this.playerFileSub = this.playerService.fileChange.subscribe((file: LibraryFile) => {
       this.currentFile = file;
@@ -61,6 +71,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
     this.playerTimeService.etaChanged.subscribe((eta)=>{
       this.elapsedTime = eta;
+      if(this.totalTime>0) {
+        this.elapsedPercentage = (this.elapsedTime/this.totalTime)*100;
+      }
+
     });
 
     this.playerStateSub = this.playerService.stateChange.subscribe((state: PlayerState) => {
