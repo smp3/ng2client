@@ -3,12 +3,21 @@
     {{currentFile | track_title }}
   </div>
   <div>
-  <button (click)="play()">Play</button>
-  <button (click)="pause()">Pause</button>
-  <button (click)="stop()">Stop</button>
-</div>
-<div>
-  <button (click)="previous()">Previous</button>
-  <button (click)="next()">Next</button>
-</div>
+    <span *ngIf="elapsedTime!==null">
+      {{ elapsedTime | playback_time }}
+    </span>
+
+    <span *ngIf="totalTime">
+      {{ totalTime | playback_time }}
+    </span>
+  </div>
+  <div>
+    <button (click)="play()">Play</button>
+    <button (click)="pause()">Pause</button>
+    <button (click)="stop()">Stop</button>
+  </div>
+  <div>
+    <button (click)="previous()">Previous</button>
+    <button (click)="next()">Next</button>
+  </div>
 </div>

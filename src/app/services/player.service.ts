@@ -24,6 +24,7 @@ export class PlayerService {
 
     stateChange: EventEmitter<PlayerState> = new EventEmitter();
     fileChange: EventEmitter<LibraryFile> = new EventEmitter();
+    fileLoad: EventEmitter<any> = new EventEmitter();
 
     constructor(private settingsService: SettingsService) {
         this.baseUrl = settingsService.get('server') + '/api/';
@@ -101,6 +102,12 @@ export class PlayerService {
 
         this.sound.on('end', () => {
             this.state = PlayerState.TRACKEND;
+        });
+
+        this.sound.on('load', ()=>{
+            this.fileLoad.next({
+                duration: this.sound.duration()
+            });
         });
     }
 

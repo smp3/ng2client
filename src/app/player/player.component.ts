@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlayerService, PlayerState } from '../services/player.service';
 import { PlaylistService } from '../services/playlist.service';
+import {PlayerTimeService} from '../services/player.time.service';
 import { LibraryFile } from '../models/library.file';
 
 @Component({
@@ -15,12 +16,19 @@ export class PlayerComponent implements OnInit, OnDestroy {
   private playerFileSub = null;
   private fileInfoText: string = '';
   private currentFile: LibraryFile = null;
+  private elapsedTime = null;
+  private totalTime = null;
+  
 
-  constructor(private playerService: PlayerService, private playlistService: PlaylistService) { }
+  constructor(
+    private playerService: PlayerService, 
+    private playlistService: PlaylistService,
+    private playerTimeService: PlayerTimeService
+  ) { }
 
 
   play() {
-    if(this.currentFile) {
+    if (this.currentFile) {
       this.playerService.playOrResume(this.currentFile);
     }
   }
@@ -32,7 +40,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   stop() {
     this.playerService.stop();
   }
-  
+
   next() {
     this.playlistService.next();
   }
@@ -42,13 +50,21 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.playerFileSub = this.playerService.fileChange.subscribe((file: LibraryFile)=> {
+    this.playerFileSub = this.playerService.fileChange.subscribe((file: LibraryFile) => {
       this.currentFile = file;
-    }); 
+    
+    });
 
+    this.playerTimeService.totalChanged.subscribe((total)=>{
+      this.totalTime = total;
+    });
+
+    this.playerTimeService.etaChanged.subscribe((eta)=>{
+      this.elapsedTime = eta;
+    });
 
     this.playerStateSub = this.playerService.stateChange.subscribe((state: PlayerState) => {
-      
+
     });
   }
 
