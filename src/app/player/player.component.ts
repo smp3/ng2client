@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlayerService, PlayerState } from '../services/player.service';
 import { PlaylistService } from '../services/playlist.service';
-import {PlayerTimeService} from '../services/player.time.service';
+import { PlayerTimeService } from '../services/player.time.service';
 import { LibraryFile } from '../models/library.file';
 
 @Component({
@@ -14,15 +14,15 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   private playerStateSub = null;
   private playerFileSub = null;
-  private fileInfoText: string = '';
-  private currentFile: LibraryFile = null;
-  private elapsedTime = null;
-  private elapsedPercentage=0;
-  private totalTime = null;
-  
+  fileInfoText: string = '';
+  currentFile: LibraryFile = null;
+  elapsedTime = null;
+  elapsedPercentage = 0;
+  totalTime = null;
+
 
   constructor(
-    private playerService: PlayerService, 
+    private playerService: PlayerService,
     private playlistService: PlaylistService,
     private playerTimeService: PlayerTimeService
   ) { }
@@ -62,17 +62,17 @@ export class PlayerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.playerFileSub = this.playerService.fileChange.subscribe((file: LibraryFile) => {
       this.currentFile = file;
-    
+
     });
 
-    this.playerTimeService.totalChanged.subscribe((total)=>{
+    this.playerTimeService.totalChanged.subscribe((total) => {
       this.totalTime = total;
     });
 
-    this.playerTimeService.etaChanged.subscribe((eta)=>{
+    this.playerTimeService.etaChanged.subscribe((eta) => {
       this.elapsedTime = eta;
-      if(this.totalTime>0) {
-        this.elapsedPercentage = (this.elapsedTime/this.totalTime)*100;
+      if (this.totalTime > 0) {
+        this.elapsedPercentage = (this.elapsedTime / this.totalTime) * 100;
       }
 
     });

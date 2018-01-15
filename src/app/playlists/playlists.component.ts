@@ -13,8 +13,8 @@ export class PlaylistsComponent implements OnInit {
 
   @ViewChild(PlaylistComponent) playlistComponent: PlaylistComponent;
 
-  private playlists: any = [];
-  private mode = 'local';
+  playlists: any = [];
+  mode = 'local';
 
   constructor(protected playlistManagerService: PlaylistManagerService) { }
 
@@ -42,8 +42,8 @@ export class PlaylistsComponent implements OnInit {
   }
 
   switchMode() {
-    if(this.mode=='local') {
-      this.mode='api';
+    if (this.mode == 'local') {
+      this.mode = 'api';
     } else {
       this.mode = 'local';
     }
