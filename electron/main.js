@@ -1,41 +1,100 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Tray, Menu } = require('electron');
+const path = require('path');
 
-let win;
-
+var win;
+var exit = false;
 
 function createWindow() {
-    // Create the browser window.
 
-  let iconPath = __dirname+'/../src/favicon.png';
-  console.log(iconPath);
 
+    let iconPath = __dirname + '/../src/favicon.png';
+    console.log('ppath',    path.join(__dirname, 'preload.js'));
     win = new BrowserWindow({
         width: 600,
         height: 600,
         backgroundColor: '#aaa',
-        icon: __dirname+'/../src/favicon.png',
-        title: "SMP3 Player"
+        icon: __dirname + '/../src/favicon.png',
+        title: "SMP3 Player",
+        webPreferences: {
+            nodeIntegration: true,
+            preload: path.join(__dirname, 'preload.js')
+
+        }
     })
     win.loadURL(`file://${__dirname}/../dist/index.html`)
-   
+
     // win.webContents.openDevTools();
+    //win.setMenu(null);
 
-    win.on('closed', function () {
-        win = null
-    })
 
-   // win.setMenu(null);
+    win.on('close', function (e) {
+        if (exit) {
+            win = null;
+        } else {
+            e.preventDefault();
+            win.hide();
+        }
+
+    });
+
+
+    let appIcon = new Tray(iconPath)
+
+    let contextMenu = Menu.buildFromTemplate([
+        {
+            label: 'Show',
+            click: function () {
+                win.show()
+            }
+        },
+        {
+            label: 'Play',
+            click: (e) => {
+                console.log('TODO');
+            }
+        },
+        {
+            label: 'Stop',
+            click: (e) => {
+                win.webContents.send('player-stop');
+            }
+        },
+        {
+            label: 'Pause',
+            click: (e) => {
+                console.log('TODO');
+            }
+        },
+        {
+            label: 'Next',
+            click: (e) => {
+                console.log('TODO');
+            }
+        },
+        {
+            label: 'Previous',
+            click: (e) => {
+                console.log('TODO');
+            }
+        },
+        {
+            label: 'Quit',
+            click: function () {
+                exit = true;
+                app.quit();
+            }
+        }
+    ])
+
+    appIcon.setContextMenu(contextMenu)
 }
-// Create window on electron intialization
+
+
+
 app.on('ready', createWindow)
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
-})
+
+app.on('before-quit', () => exit = true);
+
 app.on('activate', function () {
-    if (win === null) {
-        createWindow()
-    }
+    win.show();
 })

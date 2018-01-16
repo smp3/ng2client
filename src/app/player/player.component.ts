@@ -2,7 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlayerService, PlayerState } from '../services/player.service';
 import { PlaylistService } from '../services/playlist.service';
 import { PlayerTimeService } from '../services/player.time.service';
+import {ElectronService} from '../services/electron.service';
 import { LibraryFile } from '../models/library.file';
+
+declare var ipcRenderer: any;
+
+
 
 @Component({
   selector: 'player',
@@ -24,8 +29,19 @@ export class PlayerComponent implements OnInit, OnDestroy {
   constructor(
     private playerService: PlayerService,
     private playlistService: PlaylistService,
-    private playerTimeService: PlayerTimeService
-  ) { }
+    private playerTimeService: PlayerTimeService,
+    private electronService: ElectronService
+  ) {
+
+    /* if (ipcRenderer) {
+      ipcRenderer.on('player-stop', () => {
+        this.stop();
+      });
+    } */
+    this.electronService.on('player-stop', ()=>{
+      this.stop();
+    });
+  }
 
 
   play() {

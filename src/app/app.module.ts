@@ -26,6 +26,7 @@ import { PlaylistManagerService } from './services/playlist.manager.service';
 import { TrackTitlePipe } from './pipes/track.title.pipe';
 import { PlaylistsComponent } from './playlists/playlists.component';
 import {PlaybackTimePipe} from './pipes/playback.time.pipe';
+import {ElectronService} from './services/electron.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {PlaybackTimePipe} from './pipes/playback.time.pipe';
     PlayerService,
     PlaylistService,
     PlaylistManagerService,
-    PlayerTimeService
+    PlayerTimeService,
+    ElectronService
 
   ],
   bootstrap: [AppComponent]
