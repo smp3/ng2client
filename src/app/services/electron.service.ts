@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 declare const ipcRenderer: any;
-declare const isElectron: any;
 declare const global: any;
 
 @Injectable()

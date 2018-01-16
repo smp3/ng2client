@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ElectronService} from './services/electron.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  isElectron: boolean = false;
+
+  constructor(protected electronService: ElectronService) {
+    this.isElectron = this.electronService.isElectron();
+  }
+
+
+
 }
