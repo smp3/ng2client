@@ -1,31 +1,33 @@
-<div>
-  Mode: {{mode}}
-  <br />
-  <button (click)="switchMode()">Switch</button>
-</div>
-<div>
-  <button (click)="clearPlaylists()">
-    Clear [debug]
-  </button>
-  <button (click)="newPlaylist()">
-    New
-  </button>
-  <table>
-    <tbody>
-      <tr *ngFor="let p of playlists; let i = index;">
-        <td  (click)="selectPlaylist(p)" style="width: 80px; background-color: blue; color: #fff">
-          {{p.title}}
-        </td>
-        <td>
-          <button (click)="deletePlaylist(i)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="playlists">
+  <div>
+    Mode: {{mode}}
+    <br />
+    <button (click)="switchMode()">Switch</button>
+  </div>
+  <div>
+    <!-- <button (click)="clearPlaylists()">
+      Clear [debug]
+    </button> -->
+    <button class="btn btn-default" (click)="newPlaylist()">
+      <i class="fa fa-plus"></i>
+    </button>
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let p of playlists; let i = index;">
+          <td (click)="selectPlaylist(p)">
+            {{p.title}}
+          </td>
+          <td>
+            <button class="btn btn-default" (click)="deletePlaylist(i)">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-</div>
-<div>
-  <playlist></playlist>
+  </div>
+  <div>
+    <playlist></playlist>
+  </div>
 </div>

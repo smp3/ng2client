@@ -1,26 +1,46 @@
-<div>
-  <div>
-    {{currentFile | track_title }}
+<div class="player">
+  <div class="track-info">
+    <div class="current">
+      <span *ngIf="currentFile">
+        {{currentFile | track_title }}
+      </span>
+      <span *ngIf="!currentFile">
+          ---
+      </span>
+    </div>
+    <div class="playback-progress">
+      <progressbar #draggable (mousedown)="seekStart($event)" (mouseup)="seekEnd($event)" class="progress progress-success" [value]="elapsedPercentage"
+        [max]="100" type="success">
+        <b style="color: #000">
+          <span *ngIf="totalTime">
+            {{ elapsedTime | playback_time }} / {{ totalTime | playback_time }}
+          </span>
+
+        </b>
+      </progressbar>
+    </div>
   </div>
-  <div *ngIf="totalTime">
-   
-    <progressbar 
-    #draggable
-    (mousedown)="seekStart($event)"
-    (mouseup)="seekEnd($event)"
-    class="progress progress-success" [value]="elapsedPercentage" [max]="100" type="success" >
-      <b style="color: #000">
-          {{ elapsedTime | playback_time }} /  {{ totalTime | playback_time }}
-      </b>
-    </progressbar>
+  <div class="controls">
+    <div>
+      <button (click)="previous()" class="btn btn-default">
+        <i class="fa fa-step-backward"></i>
+      </button>
+      <button (click)="play()" class="btn btn-default">
+        <i class="fa fa-play"></i>
+      </button>
+      <button (click)="pause()" class="btn btn-default">
+        <i class="fa fa-pause"></i>
+      </button>
+      <button (click)="stop()" class="btn btn-default">
+        <i class="fa fa-stop"></i>
+      </button>
+
+      <button (click)="next()" class="btn btn-default">
+        <i class="fa fa-step-forward"></i>
+      </button>
+
+    </div>
+
   </div>
-  <div>
-    <button (click)="play()">Play</button>
-    <button (click)="pause()">Pause</button>
-    <button (click)="stop()">Stop</button>
-  </div>
-  <div>
-    <button (click)="previous()">Previous</button>
-    <button (click)="next()">Next</button>
-  </div>
+
 </div>

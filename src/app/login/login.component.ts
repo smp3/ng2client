@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../services/api.service';
 import { SettingsService } from '../services/settings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   password: string = 'test';
   server: string = 'http://localhost:8000';
 
-  constructor(private apiService: APIService, private settingsService: SettingsService) { }
+  constructor(private apiService: APIService, private settingsService: SettingsService,  private router: Router) { }
 
   ngOnInit() {
   }
@@ -28,8 +29,8 @@ export class LoginComponent implements OnInit {
     }, false);
 
     req.subscribe((data) => {
-      console.log('data', data);
       this.settingsService.set('token', data.token);
+      this.router.navigate(['/']);
     });
 
 

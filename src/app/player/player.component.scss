@@ -1,0 +1,20 @@
+.player {
+    margin-bottom: 20px;
+    .track-info {
+        .current {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    }
+
+    .controls {
+        position: relative;
+        height: 34px;
+        > div {
+            width: auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}

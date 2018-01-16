@@ -1,8 +1,27 @@
-<form>
-  Username: <input type="text" [value]="username" /><br />
-  Password: <input type="text" [value]="password" /><br />
-  Server: <input type="text" [value]="server" /><br />
-  <button type="button" (click)="login()">
-    Login
-  </button>
-</form>
+<div class="container-narrow">
+  <form class="form">
+    <div class="form-group">
+      <label>
+        Username
+      </label>
+      <input class="form-control" type="text" [value]="username" />
+    </div>
+    <div class="form-group">
+      <label>
+        Password
+      </label>
+      <input class="form-control" type="text" [value]="password" />
+    </div>
+    <div class="form-group">
+      <label>
+        Server
+      </label>
+      <input class="form-control" type="text" [value]="server" />
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success" type="button" (click)="login()">
+        Login
+      </button>
+    </div>
+  </form>
+</div>

@@ -3,24 +3,22 @@ import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angul
 import { URLSearchParams, Response } from '@angular/http';
 import { SettingsService } from './settings.service';
 import { Observable } from 'rxjs/Rx';
-
+import { Router } from '@angular/router';
 
 @Injectable()
 export class APIService {
 
-    private http: HttpClient;
-
-    constructor(http: HttpClient, private settingsService: SettingsService) {
-        this.http = http;
+    constructor(private http: HttpClient, private settingsService: SettingsService, private router: Router) {
+    
     }
 
     makeRequest(
-        url, 
-        method, 
-        inData = {}, 
-        useToken = true, 
-        redirectOnForbidden = true, 
-        contentType='application/x-www-form-urlencoded'): Observable<any> {
+        url,
+        method,
+        inData = {},
+        useToken = true,
+        redirectOnForbidden = true,
+        contentType = 'application/x-www-form-urlencoded'): Observable<any> {
 
         url = this.settingsService.get('server') + '/' + url;
 
@@ -31,23 +29,7 @@ export class APIService {
         var stringData = '';
 
         for (let i in inData) {
-           /*  if (typeof (inData[i]) === 'object' && inData[i] !== null) {
-                if (inData[i]._id) {
-                    data[i] = inData[i]._id;
-                } else if (inData[i].length) {
-                    for (let n = 0; n < inData[i].length; n++) {
-                        let k = i + '[]';
-                        stringData += '&' + k + '=' + inData[i][n];
-                    }
-                }
-            } else { */
-               
-                    data[i] = inData[i];
-                
-
-                
-           /*  } */
-
+            data[i] = inData[i];
             body.set(i, data[i]);
         }
 
@@ -77,17 +59,17 @@ export class APIService {
 
         method = method.toLowerCase();
 
-        let strBody;    
-    
-        if(contentType=='application/json') {
-            strBody = body.paramsMap;     
+        let strBody;
+
+        if (contentType == 'application/json') {
+            strBody = body.paramsMap;
             console.log('strBody', strBody);
         } else {
             strBody = body.toString() + '&' + stringData;
         }
-        
 
-        
+
+
         switch (method) {
             default:
             case 'get':
@@ -118,8 +100,11 @@ export class APIService {
             })
             .catch((error: HttpErrorResponse) => {
 
-                return Observable.throw(error);
-
+                if (error.status == 401 && redirectOnForbidden) {
+                    this.router.navigate(['/login']);
+                } else {
+                    return Observable.throw(error);
+                }
             });
     }
 

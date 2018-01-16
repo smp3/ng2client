@@ -1,12 +1,5 @@
-<div class="main-container" [ngClass]="{'electron': isElectron==true}">
-<login></login>
-<player></player>
-<div style="clear: both">
-    <div style="float: left; width: 40%">
-        <library></library>
-    </div>
-    <div style="float: right; width: 40%">
-        <playlists></playlists>
-    </div>
-</div>
+<div class="main-container container-fluid" [ngClass]="{'electron': isElectron==true}">
+    <router-outlet></router-outlet>
+    <!-- <login></login>-->
+
 </div>

@@ -1,21 +1,33 @@
-<div *ngIf="playlist">
+<div *ngIf="playlist" class="playlist">
   <div>
-    <button (click)="play()">Play</button>
-    <button (click)="savePlaylist('local')">Save (local)</button>
-    <button (click)="savePlaylist('api')">Save (API)</button>
+    <button class="btn btn-default" (click)="play()">
+      <i class="fa fa-play"></i>
+    </button>
+    <button class="btn btn-default" (click)="savePlaylist('local')">
+      <i class="fa fa-floppy-o"></i>
+    </button>
+    <button class="btn btn-default" (click)="savePlaylist('api')">
+      <i class="fa fa-cloud"></i>
+    </button>
   </div>
   <div>
-    <input type="text" [(ngModel)]="this.playlist.title" /> 
+    <label>
+      Title
+    </label>
+    <input class="form-control" type="text" [(ngModel)]="this.playlist.title" />
   </div>
-  <table>
+  <table class="table">
     <tbody>
       <tr *ngFor="let item of playlist.items; let i = index;">
         <td>
           {{item.file | track_title}}
         </td>
         <td>
-          <button (click)="delete(i)">
-            Delete
+          <button class="btn btn-default" (click)="delete(i)">
+            <i class="fa fa-trash"></i>
+          </button>
+          <button class="btn btn-default">
+            <i class="fa fa-play"></i>
           </button>
         </td>
       </tr>

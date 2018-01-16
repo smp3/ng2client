@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
 /*
 Third-party
 */
@@ -25,8 +26,14 @@ import { PlaylistService } from './services/playlist.service';
 import { PlaylistManagerService } from './services/playlist.manager.service';
 import { TrackTitlePipe } from './pipes/track.title.pipe';
 import { PlaylistsComponent } from './playlists/playlists.component';
-import {PlaybackTimePipe} from './pipes/playback.time.pipe';
-import {ElectronService} from './services/electron.service';
+import { PlaybackTimePipe } from './pipes/playback.time.pipe';
+import { ElectronService } from './services/electron.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+const appRoutes: Routes = [
+  { path: '', component: DashboardComponent },
+  { path: 'login', component: LoginComponent }
+];
 
 @NgModule({
   declarations: [
@@ -37,13 +44,18 @@ import {ElectronService} from './services/electron.service';
     LibraryComponent,
     PlayerComponent,
     PlaylistComponent,
-    PlaylistsComponent
+    PlaylistsComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ProgressbarModule.forRoot(),
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: false }
+    ),
   ],
   providers: [
     SettingsService,
