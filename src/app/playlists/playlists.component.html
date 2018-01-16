@@ -1,20 +1,18 @@
 <div class="playlists">
-    <tabset>
-        <tab (select)="switchMode()">
-            <ng-template tabHeading>Local</ng-template>
-        </tab>
-        <tab (select)="switchMode()">
-          <ng-template tabHeading>Server</ng-template>
-        </tab>
-      </tabset>
-
+  <tabset class="pull-left">
+    <tab (select)="switchMode()">
+      <ng-template tabHeading>Local</ng-template>
+    </tab>
+    <tab (select)="switchMode()">
+      <ng-template tabHeading>Server</ng-template>
+    </tab>
+  </tabset>
+  <button class="pull-right btn btn-default" (click)="newPlaylist()">
+    <i class="fa fa-plus"></i>
+  </button>
+  
   <div>
-    <!-- <button (click)="clearPlaylists()">
-      Clear [debug]
-    </button> -->
-    <button class="btn btn-default" (click)="newPlaylist()">
-      <i class="fa fa-plus"></i>
-    </button>
+
     <table class="table">
       <tbody>
         <tr *ngFor="let p of playlists; let i = index;">
