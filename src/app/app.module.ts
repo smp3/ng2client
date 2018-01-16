@@ -10,6 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 Third-party
 */
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { TabsModule } from 'ngx-bootstrap';
 /*
 App
 */
@@ -52,6 +53,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ProgressbarModule.forRoot(),
+    TabsModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false }

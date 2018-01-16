@@ -1,9 +1,13 @@
 <div class="playlists">
-  <div>
-    Mode: {{mode}}
-    <br />
-    <button (click)="switchMode()">Switch</button>
-  </div>
+    <tabset>
+        <tab (select)="switchMode()">
+            <ng-template tabHeading>Local</ng-template>
+        </tab>
+        <tab (select)="switchMode()">
+          <ng-template tabHeading>Server</ng-template>
+        </tab>
+      </tabset>
+
   <div>
     <!-- <button (click)="clearPlaylists()">
       Clear [debug]

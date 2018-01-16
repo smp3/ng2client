@@ -9,7 +9,7 @@ import { LibraryFile } from '../models/library.file';
 @Component({
   selector: 'library',
   templateUrl: './library.component.html',
-  styleUrls: ['./library.component.css']
+  styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
 
