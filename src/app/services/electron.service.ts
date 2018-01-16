@@ -19,4 +19,12 @@ export class ElectronService {
         }
         return ipcRenderer.on(eventName, callback);
     }
+
+    send(eventName, data=null) {
+        if(!this.isElectron) {
+            return;
+        }
+
+        return ipcRenderer.send(eventName, data);
+    }
 }

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron');
 const path = require('path');
 
 var win;
@@ -37,6 +37,9 @@ function createWindow() {
 
     });
 
+    ipcMain.on('menu-added',(e, data)=>{
+        console.log('menu added', data);
+    });
 
     let appIcon = new Tray(iconPath)
 

@@ -30,6 +30,8 @@ import { PlaylistsComponent } from './playlists/playlists.component';
 import { PlaybackTimePipe } from './pipes/playback.time.pipe';
 import { ElectronService } from './services/electron.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { TopMenuComponent } from './top-menu/top-menu.component';
+import {MenuService} from './services/menu.service';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -46,7 +48,8 @@ const appRoutes: Routes = [
     PlayerComponent,
     PlaylistComponent,
     PlaylistsComponent,
-    DashboardComponent
+    DashboardComponent,
+    TopMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ const appRoutes: Routes = [
     PlaylistService,
     PlaylistManagerService,
     PlayerTimeService,
-    ElectronService
+    ElectronService,
+    MenuService
 
   ],
   bootstrap: [AppComponent]
