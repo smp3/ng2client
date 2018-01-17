@@ -4,6 +4,7 @@ import { PlaylistService } from '../services/playlist.service';
 import { SettingsService } from '../services/settings.service';
 import { APIService } from '../services/api.service';
 import { LibraryFile } from '../models/library.file';
+import {LibraryService} from '../services/library.service';
 
 
 @Component({
@@ -18,14 +19,17 @@ export class LibraryComponent implements OnInit {
   constructor(
     private apiService: APIService,
     private playerService: PlayerService,
-    private playlistService: PlaylistService
+    private playlistService: PlaylistService,
+    private libraryService: LibraryService
   ) {
 
   }
 
   ngOnInit() {
-    this.apiService.makeRequest('api/library', 'get').subscribe((data) => {
-      // console.log('adta', data);
+
+    this.libraryService.fetchTrackFiles();
+
+    this.libraryService.trackFiles.subscribe(data=>{
       this.trackFiles = data;
     });
   }

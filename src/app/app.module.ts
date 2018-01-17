@@ -33,6 +33,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TopMenuComponent } from './top-menu/top-menu.component';
 import { MenuService } from './services/menu.service';
 import { AuthService } from './services/auth.service';
+import {LibraryService} from './services/library.service';
 import { SettingsComponent } from './settings/settings.component';
 
 const appRoutes: Routes = [
@@ -75,7 +76,8 @@ const appRoutes: Routes = [
     PlaylistManagerService,
     PlayerTimeService,
     ElectronService,
-    MenuService
+    MenuService,
+    LibraryService
 
   ],
   bootstrap: [AppComponent]

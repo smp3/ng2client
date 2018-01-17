@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   setupTopMenu() {
     let menu = new Menu('top');
-    menu.addItem(new MenuItem('Dashboard', '/'));
+    menu.addItem(new MenuItem('Library', '/'));
     menu.addItem(new MenuItem('Settings', '/settings'));
     menu.addItem(new MenuItem('Logout', 'logout', 'event'));
     if(this.isElectron) {
