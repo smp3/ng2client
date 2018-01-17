@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {Menu} from '../models/menu';
-import {MenuService} from '../services/menu.service';
+import { Component, OnInit, OnChanges } from '@angular/core';
+import { Menu, MenuItem } from '../models/menu';
+import { MenuService } from '../services/menu.service';
 
 @Component({
   selector: 'top-menu',
@@ -9,10 +9,19 @@ import {MenuService} from '../services/menu.service';
 })
 export class TopMenuComponent implements OnInit {
 
-  constructor(private menuService: MenuService) { }
+  topMenu: Menu;
+
+  constructor(public menuService: MenuService) {
+    this.menuService.newMenu.subscribe((menu: Menu) => {
+      this.topMenu = menu;
+      
+    });
+
+  }
+
 
   ngOnInit() {
-    this.menuService.addMenu(new Menu('test'));
+   
   }
 
 }

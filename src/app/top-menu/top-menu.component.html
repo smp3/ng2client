@@ -1,3 +1,17 @@
-<p>
-  top-menu works!
-</p>
+<nav class="navbar navbar-default" *ngIf="topMenu">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <ng-container *ngFor="let item of topMenu.items">
+
+        
+        <li *ngIf="item.type!='electron'">
+            <a (click)="menuService.itemClick(item)">
+              {{item.title}}
+            </a>
+        </li>
+      </ng-container>
+      </ul>
+    </div>
+  </div>
+</nav>

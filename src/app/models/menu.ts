@@ -15,9 +15,11 @@ export class Menu {
 export class MenuItem {
     title: string;
     action: string;
+    actionType: string;
     
-    constructor(title, action) {
+    constructor(title, action, actionType='url') {
         this.title = title;
         this.action = action;
+        this.actionType = actionType;
     }
 }

@@ -31,7 +31,8 @@ import { PlaybackTimePipe } from './pipes/playback.time.pipe';
 import { ElectronService } from './services/electron.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TopMenuComponent } from './top-menu/top-menu.component';
-import {MenuService} from './services/menu.service';
+import { MenuService } from './services/menu.service';
+import { AuthService } from './services/auth.service';
 
 const appRoutes: Routes = [
   { path: '', component: DashboardComponent },
@@ -65,6 +66,7 @@ const appRoutes: Routes = [
   providers: [
     SettingsService,
     APIService,
+    AuthService,
     PlayerService,
     PlaylistService,
     PlaylistManagerService,
