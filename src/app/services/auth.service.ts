@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { APIService } from '../services/api.service';
 import { SettingsService } from '../services/settings.service';
 
 @Injectable()
 export class AuthService {
+    loggedInEvent: EventEmitter<any>=new EventEmitter();
+    loggedOutEvent: EventEmitter<any>=new EventEmitter();
+    
     constructor(private apiService: APIService, private settingsService: SettingsService,
         private router: Router
     ) {
@@ -20,11 +23,13 @@ export class AuthService {
         req.subscribe((data) => {
             this.settingsService.set('token', data.token);
             this.router.navigate(['/']);
+            this.loggedInEvent.next('');
           });
     }
 
     logout() {
         this.settingsService.set('token',null);
         this.router.navigate(['/login']);
+        this.loggedOutEvent.next('');
     }
 }
