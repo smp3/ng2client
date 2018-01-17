@@ -14,14 +14,20 @@ export class TopMenuComponent implements OnInit {
   constructor(public menuService: MenuService) {
     this.menuService.newMenu.subscribe((menu: Menu) => {
       this.topMenu = menu;
-      
+
+    });
+
+    this.menuService.menuRemoved.subscribe((name) => {
+      if (name == 'top') {
+        this.topMenu = null;
+      }
     });
 
   }
 
 
   ngOnInit() {
-   
+
   }
 
 }

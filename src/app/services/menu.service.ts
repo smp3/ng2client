@@ -14,6 +14,7 @@ export class MenuService
     protected menus={};
 
     newMenu: EventEmitter<Menu> = new EventEmitter();
+    menuRemoved: EventEmitter<string> = new EventEmitter();
     itemClicked: EventEmitter<MenuItem>=new EventEmitter();
     itemEvent: EventEmitter<any>=new EventEmitter();
 
@@ -45,6 +46,16 @@ export class MenuService
         }
         return this;
     }
+
+    deleteMenu(name) {
+        delete this.menus[name];
+        if(this.electronService.isElectron()) {
+            this.electronService.send('menu-removed', name);
+        } else {
+            this.menuRemoved.next(name);
+        }
+
+    } 
 
     itemClick(item: MenuItem) {
         this.itemClicked.next(item);

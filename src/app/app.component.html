@@ -1,5 +1,8 @@
-<div class="main-container container-fluid" [ngClass]="{'electron': isElectron==true}">
-    <router-outlet></router-outlet>
-    <!-- <login></login>-->
+<div [ngClass]="{'electron': isElectron==true}">
+    <top-menu></top-menu>
+    <div class="main-container container-fluid">
+        <router-outlet></router-outlet>
+        <!-- <login></login>-->
 
+    </div>
 </div>
